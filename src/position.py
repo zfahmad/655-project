@@ -389,4 +389,4 @@ def testStop2():
     h.plotThermograph()
 
 
-testStop()
+testStop2()
