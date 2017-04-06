@@ -58,7 +58,7 @@ class Position():
 
     def calcTemp(self, depth=0):
         if not self.leftOption:
-            if self.leftStop < 0:
+            if self.leftStop <= 0:
                 self.temperature = 1
             else:
                 self.temperature = -1
@@ -86,6 +86,9 @@ class Position():
             idx = np.argsort(rightWall[:, 0])
             rightWall = rightWall[idx]
             
+#            print(leftWall)
+#            print(rightWall)
+
             i = np.size(leftWall, axis=0) - 1
             j = 0
             vert = 0
@@ -94,34 +97,48 @@ class Position():
             lTraj = [leftWall[i][0], 0, leftWall[i][1], 1]
             rTraj = [rightWall[j][0], 0, rightWall[j][1], 1]
             
-            if leftWall[i][0] < leftWall[i][1]:
+            if leftWall[i][0] < leftWall[i][1]:# and lTraj[1] < leftWall[i][2]:
                 lTraj[3] = 0
-            if rightWall[j][0] > rightWall[j][1]:
+            if rightWall[j][0] > rightWall[j][1]:# and rTraj[1] > rightWall[j][2]:
                 rTraj[3] = 0
             
             leftPlot = ([[lTraj[0], lTraj[1]]])
             rightPlot = ([[rTraj[0], rTraj[1]]])
+            
+#            print("LW: ", leftWall)
+#            print("RW: ", rightWall)
+#            
+#            print("LT: ", lTraj, lTraj[3])
+#            print("RT: ", rTraj, rTraj[3])
 
-            while i >= 0 and j < np.size(rightWall, axis=0):
+            found = False
+
+            while (i > 0 or j < np.size(rightWall, axis=0)) and not found:
+#                print("LW: ", leftWall)
+#                print("RW: ", rightWall)
 
                 # Special cases
                 
                 if lTraj[0] < 0 and rTraj[0] > 0:
+                    print("Special 1")
                     self.mean = 0
                     self.temperature = -1
                     self.thermoPoints = [[self.mean, self.mean, self.mean, self.temperature]]
                     return [[self.leftStop, self.rightStop, self.mean, self.temperature]]
                 elif lTraj[0] == 0 and rTraj[0] > 1:
+                    print("Special 2")
                     self.mean = 1
                     self.temperature = -1
                     self.thermoPoints = [[self.mean, self.mean, self.mean, self.temperature]]
                     return [[self.leftStop, self.rightStop, self.mean, self.temperature]]
                 elif lTraj[0] < -1 and rTraj[0] == 0:
+                    print("Special 3")
                     self.mean = -1
                     self.temperature = -1
                     self.thermoPoints = [[self.mean, self.mean, self.mean, self.temperature]]
                     return [[self.leftStop, self.rightStop, self.mean, self.temperature]]
                 elif lTraj[0] < rTraj[0]:
+                    print("Special 4")
                     choices = [lTraj[0], rTraj[0]]
                     ind = np.argmin(np.abs(choices))
                     if choices[ind] < 0:
@@ -141,22 +158,16 @@ class Position():
                     # When both are diagonal
                     
                     midpoint = (lTraj[0] + rTraj[0]) / 2
+                    rShift = midpoint - rTraj[0]
+                    lShift = lTraj[0] - midpoint
                     
                     if i > 0:
                         if leftWall[i-1][0] > midpoint:
                             lShift = lTraj[0] - leftWall[i-1][0]
-                        else:
-                            lShift = lTraj[0] - midpoint
-                    else:
-                        lShift = lTraj[0] - midpoint
             
                     if j < np.size(rightWall, axis=0) - 1:
                         if rightWall[j+1][0] < midpoint:
                             rShift = rightWall[j+1][0] - rTraj[0]
-                        else:
-                            rShift = midpoint - rTraj[0]
-                    else:
-                        rShift = midpoint - rTraj[0]
                     
 #                    print(midpoint, lShift, rShift)
 
@@ -168,7 +179,7 @@ class Position():
                         rTraj[1] += lShift
                     
                         i -= 1
-                        if i <= 0:
+                        if i >= 0:
                             if lTraj[1] < leftWall[i][2]:
                                 lTraj[3] = 0
                     
@@ -196,18 +207,21 @@ class Position():
                         j += 1
                         
                         if not lTraj[0] == rTraj[0]:
-                            if i <= 0:
+                            if i >= 0:
                                 if lTraj[1] < leftWall[i][2]:
                                     lTraj[3] = 0
                             if j < np.size(rightWall, axis=0):
                                 if rTraj[1] < rightWall[j][2]:
                                     rTraj[3] = 0
+                        else:
+                            found = True
                                 
                 elif lTraj[3] and not rTraj[3]:
                 
                     # When Right is Vertical
                 
                     intersect = lTraj[0] - rTraj[0]
+                    lShift = intersect
                 
                     if i > 0:
                         if lTraj[0] - leftWall[i-1][0] < intersect:
@@ -218,6 +232,10 @@ class Position():
                         lShift = intersect
 
                     rvShift = rightWall[j][2] - rTraj[1]
+                    
+#                    if rvShift == 0:
+#                        rTraj[3] = 1
+#                        break
 
                     if rvShift < lShift:
                         rTraj[1] += rvShift
@@ -235,7 +253,7 @@ class Position():
                         
                         i -= 1
 
-                        if i <= 0:
+                        if i >= 0:
                             if lTraj[1] < leftWall[i][2]:
                                 lTraj[3] = 0
                                 
@@ -250,12 +268,16 @@ class Position():
                             if lTraj[1] < leftWall[i][2]:
                                 lTraj[3] = 0
                             rTraj[3] = 1
+                        else:
+                            found = True
 
                 elif not lTraj[3] and rTraj[3]:
-                
+#                    print("VD")
+
                     # When Left is Vertical
-                
+            
                     intersect = lTraj[0] - rTraj[0]
+                    rShift = intersect
                 
                     if j < np.size(rightWall, axis=0) - 1:
                         if rightWall[j+1][0] - rTraj[0] < intersect:
@@ -266,6 +288,12 @@ class Position():
                         rShift = intersect
 
                     lvShift = leftWall[i][2] - lTraj[1]
+
+#                    if lvShift <= 0:
+#                        lTraj[3] = 1
+#                        break
+
+#                    print("Shifts: ", lvShift, rShift)
 
                     if lvShift < rShift:
                         lTraj[1] += lvShift
@@ -298,6 +326,8 @@ class Position():
                             if rTraj[1] < rightWall[j][2]:
                                 rTraj[3] = 0
                             lTraj[3] = 1
+                        else:
+                            found = True
                 
                 elif not lTraj[3] and not rTraj[3]:
                 
@@ -319,8 +349,15 @@ class Position():
                         rTraj[1] += rvShift
                         rTraj[3] = 1
                         lTraj[3] = 1
+                
+
                 leftPlot = np.vstack((leftPlot, [[lTraj[0], lTraj[1]]]))
+#                print("L: ", lTraj)
+#                print("R: ", rTraj)
                 rightPlot = np.vstack((rightPlot, [[rTraj[0], rTraj[1]]]))
+                
+                if lTraj[0] == rTraj[0]:
+                    found = True
 
             self.mean = lTraj[0]
             self.temperature = lTraj[1]
@@ -388,5 +425,95 @@ def testStop2():
     f.plotThermograph()
     h.plotThermograph()
 
+def testData():
+    a = Position(leftStop=50, rightStop=50)
+    
+    b = Position(leftStop=51, rightStop=51)
+    c = Position(leftStop=47, rightStop=47)
 
-testStop2()
+    d = Position(leftStop=12, rightStop=12)
+
+    e = Position(leftStop=14, rightStop=14)
+    f = Position(leftStop=11, rightStop=11)
+
+
+    g = Position(leftStop=8, rightStop=8)
+
+    h = Position(leftStop=15, rightStop=15)
+    i = Position(leftStop=4, rightStop=4)
+
+    j = Position(leftStop=0, rightStop=0)
+
+    k = Position(leftStop=4, rightStop=4)
+    l = Position(leftStop=0, rightStop=0)
+
+
+    m = Position(leftOption=[b], rightOption=[c])
+
+    n = Position(leftOption=[e], rightOption=[f])
+
+    o = Position(leftOption=[h], rightOption=[i])
+
+    p = Position(leftOption=[k], rightOption=[l])
+
+    q = Position(leftOption=[a, m], rightOption=[d, n])
+
+    r = Position(leftOption=[g, o], rightOption=[j, p])
+
+    s = Position(leftOption=[q], rightOption=[r])
+
+    s.plotThermograph()
+    print(s.mean, s.temperature)
+    print(s.posDef())
+
+def testData2():
+    a = Position(leftStop=49, rightStop=49)
+    
+    b = Position(leftStop=57, rightStop=57)
+    c = Position(leftStop=49, rightStop=49)
+
+    d = Position(leftStop=46, rightStop=46)
+
+    e = Position(leftStop=47, rightStop=47)
+    f = Position(leftStop=46, rightStop=46)
+
+
+    g = Position(leftStop=18, rightStop=18)
+#    g.plotThermograph()
+
+    h = Position(leftStop=18, rightStop=18)
+    i = Position(leftStop=15, rightStop=15)
+
+    j = Position(leftStop=0, rightStop=0)
+#    j.plotThermograph()
+
+    k = Position(leftStop=7, rightStop=7)
+    l = Position(leftStop=-4, rightStop=-4)
+
+
+    m = Position(leftOption=[b], rightOption=[c])
+#    m.plotThermograph()
+
+    n = Position(leftOption=[e], rightOption=[f])
+#    n.plotThermograph()
+
+    o = Position(leftOption=[h], rightOption=[i])
+#    o.plotThermograph()
+
+    p = Position(leftOption=[k], rightOption=[l])
+#    p.plotThermograph()
+
+    q = Position(leftOption=[a, m], rightOption=[d, n])
+#    q.plotThermograph()
+
+    r = Position(leftOption=[g, o], rightOption=[j, p])
+    r.plotThermograph()
+
+    s = Position(leftOption=[q], rightOption=[r])
+    s.plotThermograph()
+
+#    s.plotThermograph()
+    print(s.mean, s.temperature)
+
+
+#testData2()
