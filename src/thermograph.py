@@ -24,6 +24,30 @@ def thermograph(thermoPoints):
     
     plt.show()
 
+
+def compThermograph(l, r, t):
+    lPoints = l
+
+    rPoints = r
+    
+    plt.grid()
+    
+    plt.xlim(lPoints[-1] + 1, rPoints[0] - 1)
+    plt.ylim(-1, t[-1] + 1)
+    
+    plt.xlabel("Value")
+    plt.ylabel("Temperature")
+    
+    plt.axhline(0, color="black", alpha=0.5)
+    plt.axvline(0, color="black", alpha=0.5)
+    
+    plt.plot(lPoints, t, color="Blue", lw=2, alpha=0.8)
+    plt.plot(rPoints, t, color="Green", lw=2, alpha=0.8)
+    plt.arrow(lPoints[-1], t[-1], 0, 0.5, head_length=.25, head_width=0.15, color="Red", lw=2, alpha=0.8)
+    
+    plt.show()
+
+
 def line(thermoPoints):
     plt.grid()
     

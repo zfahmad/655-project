@@ -3,10 +3,10 @@ import pickle
 import game_creator as gc
 
 
-NUM_GAMES = 100
-NUM_SUB = 5
+NUM_GAMES = 1
+NUM_SUB = 2
 
-input = open("games.in", "rb")
+input = open('games.in', "rb")
 
 for m in range(NUM_GAMES):
     game = []
@@ -15,6 +15,7 @@ for m in range(NUM_GAMES):
         line = pickle.load(input)
 #        print(line)
         game.append(gc.game_creator(line))
+        
     print("Loaded game: ", m)
 print("Successfully loaded and ended all games.")
 

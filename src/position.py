@@ -2,6 +2,7 @@ import math
 import numpy as np
 import thermograph as thm
 
+
 class Position():
     def __init__(self, leftOption=None, rightOption=None, leftStop=0, rightStop=0):
         self.leftOption = leftOption
@@ -14,6 +15,7 @@ class Position():
         self.calcLeftStop()
         self.calcRightStop()
         self.calcTemp()
+    
 
     def calcLeftStop(self):
         if not self.leftOption:
@@ -27,6 +29,7 @@ class Position():
             self.leftStop = leftStop
             return leftStop
 
+
     def calcRightStop(self):
         if not self.rightOption:
             return self.rightStop
@@ -38,6 +41,7 @@ class Position():
                     rightStop = foundStop
             self.rightStop = rightStop
             return rightStop
+
             
     def posDef(self):
         if not self.leftOption:
@@ -54,6 +58,55 @@ class Position():
                 right.append(option.posDef())
             return [left, right]
 
+
+    def rWallAtT(self, t):
+        rVal = list(self.thermoPoints[:, 2])
+        rT = list(self.thermoPoints[: , 3])
+        
+        if t >= rT[-1]:
+            return rVal[-1]
+        elif t in rT:
+            return rVal[rT.index(t)]
+        else:
+            ub = len(rT)
+            lb = 0
+            
+            for i in range(len(rT)):
+                if rT[i] < t:
+                    lb = i
+                    ub = i + 1
+            
+            if rVal[ub] == rVal[lb]:
+                return rVal[ub]
+            else:
+                return rVal[lb] + (t - rT[lb])
+                
+
+    def lWallAtT(self, t):
+        lVal = list(self.thermoPoints[:, 0])
+        lT = list(self.thermoPoints[: , 1])
+        
+        if t >= lT[-1]:
+            return lVal[-1]
+        elif t in lT:
+            return lVal[lT.index(t)]
+        else:
+            ub = 0
+            lb = len(lT)
+            
+            for i in range(len(lT)):
+                if lT[i] < t:
+                    lb = i
+                    ub = i + 1
+            
+            if lVal[ub] == lVal[lb]:
+                return lVal[ub]
+            else:
+                return lVal[lb] - (t - lT[lb])
+
+
+    def widthAtT(self, t):
+        return self.lWallAtT(t) - self.rWallAtT(t)
 
 
     def calcTemp(self, depth=0):
@@ -365,7 +418,8 @@ class Position():
             
             
             return [[self.leftStop, self.rightStop, self.mean, self.temperature]]
-            
+    
+
     def plotThermograph(self):
         if np.size(self.thermoPoints, axis=0) == 1:
             thm.line(self.thermoPoints)
@@ -507,13 +561,17 @@ def testData2():
 #    q.plotThermograph()
 
     r = Position(leftOption=[g, o], rightOption=[j, p])
-    r.plotThermograph()
+#    r.plotThermograph()
 
     s = Position(leftOption=[q], rightOption=[r])
-    s.plotThermograph()
+#    s.plotThermograph()
 
 #    s.plotThermograph()
     print(s.mean, s.temperature)
+    print(s.thermoPoints)
+    print(s.rWallAtT(13))
+    print(s.lWallAtT(13))
+    print(s.widthAtT(13))
 
 
 #testData2()

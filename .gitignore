@@ -1,5 +1,8 @@
 ../..
 */__pycache__/
-*/.DS_store
+*/.DS_Store
+*/.idea/
+.idea/
+.DS_Store
 !/src
 !/utils
