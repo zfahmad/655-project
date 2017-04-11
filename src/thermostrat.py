@@ -52,13 +52,13 @@ class Thermostrat():
 
         return subgame, opt
 
-def test():
-    G1 = gc.game_creator([[[[50, [[51], [47]]], [12, [[14], [11]]]]], [[[8, [[15], [4]]], [0, [[4], [0]]]]]])
-    G2 = gc.game_creator([[[[58, [[67], [52]]], [23, [[29], [18]]]]], [[[8, [[10], [5]]], [0, [[6], [-6]]]]]])
-
-    G = g.Game([G1, G2])
-
-    player = Thermostrat("left")
-    print(player.chooseOption(G))
-
+#def test():
+#    G1 = gc.game_creator([[[[50, [[51], [47]]], [12, [[14], [11]]]]], [[[8, [[15], [4]]], [0, [[4], [0]]]]]])
+#    G2 = gc.game_creator([[[[58, [[67], [52]]], [23, [[29], [18]]]]], [[[8, [[10], [5]]], [0, [[6], [-6]]]]]])
+#
+#    G = g.Game([G1, G2])
+#
+#    player = Thermostrat("left")
+#    print(player.chooseOption(G))
+#
 #test()

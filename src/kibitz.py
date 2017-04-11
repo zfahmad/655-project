@@ -11,7 +11,6 @@ class Kibitz():
     def chooseOption(self, G):
     
         numSubgames = len(G.subgames)
-#        print(numSubgames)
         maxTemp = -1
         
         for i in range(numSubgames):
@@ -26,23 +25,16 @@ class Kibitz():
             
             for i in range(numSubgames):
                 sgame = G.subgames[i]
-                if (0.5 * maxTemp) + sgame.leftStop >= maxForecast:
+                if  (0.5 * maxTemp) + sgame.leftStop >= maxForecast:
                     subgame = i
                     maxForecast = (0.5 * maxTemp) + sgame.leftStop
     
             newForecast = -math.inf
     
             options = G.subgames[subgame].leftOption
-            
-            t_new = -1
-            
-            for i in range(len(options)):
 
-                if options[i].temperature >= t_new:
-                    t_new = options[i].temperature
-            
             for i in range(len(options)):
-#                t_new = options[i].temperature
+                t_new = options[i].temperature
 
                 if options[i].rightStop - (0.5 * t_new) >= newForecast:
                     newForecast = options[i].rightStop - (0.5 * t_new)
@@ -61,17 +53,10 @@ class Kibitz():
             newForecast = math.inf
     
             options = G.subgames[subgame].rightOption
-            
-            t_new = -1
-            
-            for i in range(len(options)):
 
-                if options[i].temperature >= t_new:
-                    t_new = options[i].temperature
-            
             for i in range(len(options)):
             
-#                t_new = options[i].temperature
+                t_new = options[i].temperature
 
                 if options[i].leftStop + (0.5 * t_new) <= newForecast:
                     newForecast = options[i].leftStop + (0.5 * t_new)

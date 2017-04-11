@@ -34,12 +34,11 @@ for m in range(NUM_GAMES):
     
     for s in range(NUM_SUB):
         line = pickle.load(input)
-#        print(line)
         game.append(gc.game_creator(line))
     
     G = g.Game(game)
 
-    P = play.Play(G, leftHot, rightRand)
+    P = play.Play(G, leftKib, rightKib)
     P.play()
     total += P.score
         

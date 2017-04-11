@@ -17,15 +17,12 @@ class Game():
         rWall = np.array([])
         
         for game in self.subgames:
-#            print(game.thermoPoints)
             if np.size(game.thermoPoints, axis=0) == 1:
                 turnPoints = np.append(turnPoints, game.thermoPoints[0][-1])
             else:
                 turnPoints = np.append(turnPoints, game.thermoPoints[:, -1])
         
         turnPoints = np.unique(turnPoints)
-        
-#        print(turnPoints)
 
         for temp in turnPoints:
             rs = 0
@@ -51,7 +48,6 @@ class Game():
         
     
     def getAmbient(self):
-#        print(np.argmax(self.leftWall))
         return self.turnPoints[np.argmax(self.leftWall)]
 
 
@@ -84,13 +80,13 @@ class Game():
 
 
 
-def test():
-    G1 = gc.game_creator([[[[50, [[51], [47]]], [12, [[14], [11]]]]], [[[8, [[15], [4]]], [5, [[4], [0]]]]]])
-    G2 = gc.game_creator([[[[58, [[67], [52]]], [23, [[29], [18]]]]], [[[8, [[10], [5]]], [0, [[6], [-6]]]]]])
-
-    G = Game([G1, G2])
-    
-    print(G.subgames[0].posDef())
+#def test():
+#    G1 = gc.game_creator([[[[50, [[51], [47]]], [12, [[14], [11]]]]], [[[8, [[15], [4]]], [5, [[4], [0]]]]]])
+#    G2 = gc.game_creator([[[[58, [[67], [52]]], [23, [[29], [18]]]]], [[[8, [[10], [5]]], [0, [[6], [-6]]]]]])
+#
+#    G = Game([G1, G2])
+#    
+#    print(G.subgames[0].posDef())
 #    print(G.subgames[1].posDef())
 #    print(G1.thermoPoints)
 #    print(G2.thermoPoints)
@@ -100,10 +96,10 @@ def test():
 #    G.plotTherm()
 #    print(G.leftWall)
 #    print(G.getAmbient())
-    G.transition(0, 0, "right")
-    print(G.subgames[0].posDef())
-
-    print(G.transition(0, 0, "right"))
-    print(G.subgames[0].posDef())
-
-#test()
+#    G.transition(0, 0, "right")
+#    print(G.subgames[0].posDef())
+#
+#    print(G.transition(0, 0, "right"))
+#    print(G.subgames[0].posDef())
+#
+##test()
