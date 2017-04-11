@@ -60,15 +60,20 @@ class Position():
 
 
     def rWallAtT(self, t):
-        rVal = list(self.thermoPoints[:, 2])
-        rT = list(self.thermoPoints[: , 3])
+    
+        if np.size(self.thermoPoints, axis=0) == 1:
+            rVal = [self.thermoPoints[0][2]]
+            rT = [self.thermoPoints[0][3]]
+        else:
+            rVal = list(self.thermoPoints[:, 2])
+            rT = list(self.thermoPoints[: , 3])
         
         if t >= rT[-1]:
             return rVal[-1]
         elif t in rT:
             return rVal[rT.index(t)]
         else:
-            ub = len(rT)
+            ub = len(rT) - 1
             lb = 0
             
             for i in range(len(rT)):
@@ -83,8 +88,13 @@ class Position():
                 
 
     def lWallAtT(self, t):
-        lVal = list(self.thermoPoints[:, 0])
-        lT = list(self.thermoPoints[: , 1])
+        if np.size(self.thermoPoints, axis=0) == 1:
+            [self.thermoPoints[0][1]]
+            lVal = [self.thermoPoints[0][0]]
+            lT = [self.thermoPoints[0][1]]
+        else:
+            lVal = list(self.thermoPoints[:, 0])
+            lT = list(self.thermoPoints[: , 1])
         
         if t >= lT[-1]:
             return lVal[-1]
@@ -92,7 +102,7 @@ class Position():
             return lVal[lT.index(t)]
         else:
             ub = 0
-            lb = len(lT)
+            lb = len(lT) - 1
             
             for i in range(len(lT)):
                 if lT[i] < t:
@@ -173,27 +183,30 @@ class Position():
                 # Special cases
                 
                 if lTraj[0] < 0 and rTraj[0] > 0:
-                    print("Special 1")
+#                    print("Special 1")
                     self.mean = 0
                     self.temperature = -1
                     self.thermoPoints = [[self.mean, self.mean, self.mean, self.temperature]]
                     return [[self.leftStop, self.rightStop, self.mean, self.temperature]]
                 elif lTraj[0] == 0 and rTraj[0] > 1:
-                    print("Special 2")
+#                    print("Special 2")
                     self.mean = 1
                     self.temperature = -1
                     self.thermoPoints = [[self.mean, self.mean, self.mean, self.temperature]]
                     return [[self.leftStop, self.rightStop, self.mean, self.temperature]]
                 elif lTraj[0] < -1 and rTraj[0] == 0:
-                    print("Special 3")
+#                    print("Special 3")
                     self.mean = -1
                     self.temperature = -1
                     self.thermoPoints = [[self.mean, self.mean, self.mean, self.temperature]]
                     return [[self.leftStop, self.rightStop, self.mean, self.temperature]]
                 elif lTraj[0] < rTraj[0]:
-                    print("Special 4")
+#                    print("Special 4")
                     choices = [lTraj[0], rTraj[0]]
                     ind = np.argmin(np.abs(choices))
+#                    print(ind)
+                    if np.size(ind) > 1:
+                        ind = ind(0)
                     if choices[ind] < 0:
                         choices[ind] -= 1
                     else:
