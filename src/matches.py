@@ -52,9 +52,10 @@ for _ in range(TRIALS):
         P = play.Play(G, leftGuru, rightTherm)
         P.play()
         total += P.score
+        
+        print("Loaded game: ", m)
 
     input.close()
-            
-#        print("Loaded game: ", m)
+
 print("Total Score: ", total / TRIALS)
 print("Successfully loaded and ended all games.")
