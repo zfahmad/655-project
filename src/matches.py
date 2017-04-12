@@ -6,15 +6,16 @@ import randBot as rbot
 import hotstrat as hot
 import thermostrat as therm
 import kibitz as kib
+import guru
 import game as g
 
+# Experimental stats
 
 NUM_GAMES = 100
 NUM_SUB = 5
+TRIALS = 1
 
-input = open('games.in', "rb")
-
-total = 0
+# Definition of bots
 
 leftKib = kib.Kibitz("left")
 rightKib = kib.Kibitz("right")
@@ -28,22 +29,32 @@ rightTherm = therm.Thermostrat("right")
 leftRand = rbot.RandomBot("left")
 rightRand = rbot.RandomBot("right")
 
-for m in range(NUM_GAMES):
-    game = []
+leftGuru = guru.Guru("left")
+rightGuru = guru.Guru("right")
 
-    
-    for s in range(NUM_SUB):
-        line = pickle.load(input)
-        game.append(gc.game_creator(line))
-    
-    G = g.Game(game)
+# Experiments
 
-    P = play.Play(G, leftKib, rightKib)
-    P.play()
-    total += P.score
+total = 0
+
+for _ in range(TRIALS):
+    
+    input = open('games.in', "rb")
+    
+    for m in range(NUM_GAMES):
+        game = []
         
-    print("Loaded game: ", m)
-print("Total Score: ", total)
-print("Successfully loaded and ended all games.")
+        for s in range(NUM_SUB):
+            line = pickle.load(input)
+            game.append(gc.game_creator(line))
+        
+        G = g.Game(game)
 
-input.close()
+        P = play.Play(G, leftGuru, rightTherm)
+        P.play()
+        total += P.score
+
+    input.close()
+            
+#        print("Loaded game: ", m)
+print("Total Score: ", total / TRIALS)
+print("Successfully loaded and ended all games.")
