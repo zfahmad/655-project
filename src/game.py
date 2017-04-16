@@ -52,7 +52,7 @@ class Game():
 
 
     def plotTherm(self):
-        thm.compThermograph(self.leftWall, self.rightWall, self.turnPoints)
+        thm.compThermograph(self.leftWall, self.rightWall, self.turnPoints, self.getAmbient())
 
 
     def isOver(self):
@@ -80,26 +80,20 @@ class Game():
 
 
 
-#def test():
-#    G1 = gc.game_creator([[[[50, [[51], [47]]], [12, [[14], [11]]]]], [[[8, [[15], [4]]], [5, [[4], [0]]]]]])
-#    G2 = gc.game_creator([[[[58, [[67], [52]]], [23, [[29], [18]]]]], [[[8, [[10], [5]]], [0, [[6], [-6]]]]]])
+def test():
+    G1 = gc.game_creator([[[[50, [[51], [47]]], [12, [[14], [11]]]]], [[[8, [[15], [4]]], [5, [[4], [0]]]]]])
+    G2 = gc.game_creator([[[[58, [[67], [52]]], [23, [[29], [18]]]]], [[[8, [[10], [5]]], [0, [[6], [-6]]]]]])
+#    G3 = gc.game_creator([[[[58, [[45], [42]]], [18, [[22], [18]]]]], [[[8, [[4], [-5]]], [5, [[10], [-3]]]]]])
 #
-#    G = Game([G1, G2])
-#    
+    G = Game([G1, G2])
+#
 #    print(G.subgames[0].posDef())
 #    print(G.subgames[1].posDef())
 #    print(G1.thermoPoints)
 #    print(G2.thermoPoints)
 #    G1.plotThermograph()
 #    G2.plotThermograph()
-#    G.compoundTherm()
-#    G.plotTherm()
-#    print(G.leftWall)
-#    print(G.getAmbient())
-#    G.transition(0, 0, "right")
-#    print(G.subgames[0].posDef())
+    G.compoundTherm()
+    G.plotTherm()
 #
-#    print(G.transition(0, 0, "right"))
-#    print(G.subgames[0].posDef())
-#
-##test()
+#test()

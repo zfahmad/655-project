@@ -18,17 +18,14 @@ class Kibitz():
             if G.subgames[i].temperature >= maxTemp:
                 subgame = i
                 maxTemp = G.subgames[i].temperature
+    
+        ambient = G.getAmbient()
 
         if self.player == "left":
         
-            maxForecast = -math.inf
-            
-            for i in range(numSubgames):
-                sgame = G.subgames[i]
-                if  (0.5 * maxTemp) + sgame.leftStop >= maxForecast:
-                    subgame = i
-                    maxForecast = (0.5 * maxTemp) + sgame.leftStop
-    
+            sgame = G.subgames[subgame]
+            forecast = (0.5 * sgame.temperature) + sgame.leftStop
+
             newForecast = -math.inf
     
             options = G.subgames[subgame].leftOption
@@ -42,20 +39,14 @@ class Kibitz():
         
         else:
         
-            minForecast = math.inf
-            
-            for i in range(numSubgames):
-                sgame = G.subgames[i]
-                if sgame.rightStop - (0.5 * maxTemp) <= minForecast:
-                    subgame = i
-                    minForecast = sgame.rightStop - (0.5 * maxTemp)
-    
+            sgame = G.subgames[subgame]
+            forecast = sgame.rightStop - (0.5 * sgame.temperature)
+
             newForecast = math.inf
     
             options = G.subgames[subgame].rightOption
 
             for i in range(len(options)):
-            
                 t_new = options[i].temperature
 
                 if options[i].leftStop + (0.5 * t_new) <= newForecast:

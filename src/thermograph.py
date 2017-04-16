@@ -25,7 +25,7 @@ def thermograph(thermoPoints):
     plt.show()
 
 
-def compThermograph(l, r, t):
+def compThermograph(l, r, t, amb):
     lPoints = l
 
     rPoints = r
@@ -35,11 +35,12 @@ def compThermograph(l, r, t):
     plt.xlim(lPoints[-1] + 1, rPoints[0] - 1)
     plt.ylim(-1, t[-1] + 1)
     
-    plt.xlabel("Value")
-    plt.ylabel("Temperature")
+    plt.xlabel("Stop")
+    plt.ylabel(r"Temperature ($t$)")
     
     plt.axhline(0, color="black", alpha=0.5)
     plt.axvline(0, color="black", alpha=0.5)
+    plt.axhline(amb, color="purple", alpha=0.7, ls="--", lw=2)
     
     plt.plot(lPoints, t, color="Blue", lw=2, alpha=0.8)
     plt.plot(rPoints, t, color="Green", lw=2, alpha=0.8)

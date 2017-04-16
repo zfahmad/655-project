@@ -466,125 +466,17 @@ class Position():
 #    
 #    a.plotThermograph()
 #    print(a.posDef())
-##    b.plotThermograph()
-##    c.plotThermograph()
-##    d.plotThermograph()
-##    e.plotThermograph()
-##    f.plotThermograph()
-##    g.plotThermograph()
-##    h.plotThermograph()
-##    i.plotThermograph()
-##    j.plotThermograph()
-##    k.plotThermograph()
-##    l.plotThermograph()
-##    m.plotThermograph()
-#
-#def testStop2():
-#    a = Position(leftStop=2, rightStop=2)
-#    b = Position(leftStop=4, rightStop=4)
-#    c = Position(leftStop=1, rightStop=1)
-#    d = Position(leftStop=-1, rightStop=-1)
-#    e = Position(leftStop=-2, rightStop=-2)
-#    f = Position(leftOption=[b], rightOption=[c])
-#    g = Position(leftOption=[d], rightOption=[e])
-#    h = Position(leftOption=[a, f], rightOption=[g])
-#
+#    b.plotThermograph()
+#    c.plotThermograph()
+#    d.plotThermograph()
+#    e.plotThermograph()
 #    f.plotThermograph()
+#    g.plotThermograph()
 #    h.plotThermograph()
+#    i.plotThermograph()
+#    j.plotThermograph()
+#    k.plotThermograph()
+#    l.plotThermograph()
+#    m.plotThermograph()
 #
-#def testData():
-#    a = Position(leftStop=50, rightStop=50)
-#    
-#    b = Position(leftStop=51, rightStop=51)
-#    c = Position(leftStop=47, rightStop=47)
-#
-#    d = Position(leftStop=12, rightStop=12)
-#
-#    e = Position(leftStop=14, rightStop=14)
-#    f = Position(leftStop=11, rightStop=11)
-#
-#
-#    g = Position(leftStop=8, rightStop=8)
-#
-#    h = Position(leftStop=15, rightStop=15)
-#    i = Position(leftStop=4, rightStop=4)
-#
-#    j = Position(leftStop=0, rightStop=0)
-#
-#    k = Position(leftStop=4, rightStop=4)
-#    l = Position(leftStop=0, rightStop=0)
-#
-#
-#    m = Position(leftOption=[b], rightOption=[c])
-#
-#    n = Position(leftOption=[e], rightOption=[f])
-#
-#    o = Position(leftOption=[h], rightOption=[i])
-#
-#    p = Position(leftOption=[k], rightOption=[l])
-#
-#    q = Position(leftOption=[a, m], rightOption=[d, n])
-#
-#    r = Position(leftOption=[g, o], rightOption=[j, p])
-#
-#    s = Position(leftOption=[q], rightOption=[r])
-#
-#    s.plotThermograph()
-#    print(s.mean, s.temperature)
-#    print(s.posDef())
-#
-#def testData2():
-#    a = Position(leftStop=49, rightStop=49)
-#    
-#    b = Position(leftStop=57, rightStop=57)
-#    c = Position(leftStop=49, rightStop=49)
-#
-#    d = Position(leftStop=46, rightStop=46)
-#
-#    e = Position(leftStop=47, rightStop=47)
-#    f = Position(leftStop=46, rightStop=46)
-#
-#
-#    g = Position(leftStop=18, rightStop=18)
-##    g.plotThermograph()
-#
-#    h = Position(leftStop=18, rightStop=18)
-#    i = Position(leftStop=15, rightStop=15)
-#
-#    j = Position(leftStop=0, rightStop=0)
-##    j.plotThermograph()
-#
-#    k = Position(leftStop=7, rightStop=7)
-#    l = Position(leftStop=-4, rightStop=-4)
-#
-#
-#    m = Position(leftOption=[b], rightOption=[c])
-##    m.plotThermograph()
-#
-#    n = Position(leftOption=[e], rightOption=[f])
-##    n.plotThermograph()
-#
-#    o = Position(leftOption=[h], rightOption=[i])
-##    o.plotThermograph()
-#
-#    p = Position(leftOption=[k], rightOption=[l])
-##    p.plotThermograph()
-#
-#    q = Position(leftOption=[a, m], rightOption=[d, n])
-##    q.plotThermograph()
-#
-#    r = Position(leftOption=[g, o], rightOption=[j, p])
-##    r.plotThermograph()
-#
-#    s = Position(leftOption=[q], rightOption=[r])
-##    s.plotThermograph()
-#
-##    s.plotThermograph()
-#    print(s.mean, s.temperature)
-#    print(s.thermoPoints)
-#    print(s.rWallAtT(13))
-#    print(s.lWallAtT(13))
-#    print(s.widthAtT(13))
-#
-#
-##testData2()
+#testStop()

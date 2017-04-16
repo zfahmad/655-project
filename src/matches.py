@@ -49,7 +49,7 @@ for _ in range(TRIALS):
         
         G = g.Game(game)
 
-        P = play.Play(G, leftGuru, rightTherm)
+        P = play.Play(G, leftTherm, rightGuru)
         P.play()
         total += P.score
         
