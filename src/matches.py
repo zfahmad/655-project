@@ -49,11 +49,11 @@ for _ in range(TRIALS):
         
         G = g.Game(game)
 
-        P = play.Play(G, leftKib, rightTherm)
+        P = play.Play(G, leftRand, rightKib)
         P.play()
         total += P.score
         
-        print("Loaded game: ", m)
+#        print("Loaded game: ", m)
 
     input.close()
 

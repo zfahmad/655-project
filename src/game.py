@@ -83,7 +83,8 @@ class Game():
 def test():
     G1 = gc.game_creator([[[[50, [[51], [47]]], [12, [[14], [11]]]]], [[[8, [[15], [4]]], [5, [[4], [0]]]]]])
     G2 = gc.game_creator([[[[58, [[67], [52]]], [23, [[29], [18]]]]], [[[8, [[10], [5]]], [0, [[6], [-6]]]]]])
-#    G3 = gc.game_creator([[[[58, [[45], [42]]], [18, [[22], [18]]]]], [[[8, [[4], [-5]]], [5, [[10], [-3]]]]]])
+    G3 = gc.game_creator([[[[58, [[45], [42]]], [18, [[22], [18]]]]], [[[8, [[4], [-5]]], [5, [[10], [-3]]]]]])
+
 #
     G = Game([G1, G2])
 #
@@ -91,8 +92,9 @@ def test():
 #    print(G.subgames[1].posDef())
 #    print(G1.thermoPoints)
 #    print(G2.thermoPoints)
-#    G1.plotThermograph()
-#    G2.plotThermograph()
+    G1.plotThermograph()
+    G2.plotThermograph()
+    G3.plotThermograph()
     G.compoundTherm()
     G.plotTherm()
 #
